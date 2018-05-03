@@ -1,0 +1,9 @@
+{
+  "name": "my-standard",
+  "devDependencies": {
+    "standard": "*"
+  },
+  "scripts": {
+    "test": "standard"
+  }
+}
