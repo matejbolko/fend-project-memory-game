@@ -86,23 +86,51 @@ function restartGame () {
   // empty all variables
   matchedCards = []
   openedCards = []
+  resetTimer()
   console.log(memoryCards)
 }
 
 function isGameOver () {
   if (matchedCards.length === 16) {
     window.setTimeout(function () {
-      window.alert('GAME OVER')
+      window.alert('GAME OVER' + t)
     }, 100)
   }
 }
 
-function disableBackground () {
-  document.getElementById('startMenu').style.display = 'none'
-  document.getElementById('disableGame').style.display = 'none'
-  document.getElementById('startMenu').style.display = 'none'
-  document.getElementById('disableGame').style.display = 'none'
+function timer () {
+  t = setTimeout(add, 1000);
 }
+
+function resetTimer () {
+  clearTimeout(t);
+  t = 0
+  sec = 0
+  min = 0
+  var clock = document.getElementById('timer')
+  clock.textContent = '00:00'
+  timer()
+}
+
+function add() {
+  sec++;
+  if (sec >= 60) {
+    sec = 0;
+    min++;
+  }
+  var clock = document.getElementById('timer')
+  clock.textContent = (min ? (min > 9 ? min : "0" + min) : "00") + ":" + (sec > 9 ? sec : "0" + sec)
+  timer()
+}
+
+function startGames () {
+  document.getElementById('startMenu').style.display = 'none'
+  document.getElementById('disableGame').style.display = 'none'
+  document.getElementById('startMenu').style.display = 'none'
+  document.getElementById('disableGame').style.display = 'none'
+  timer()
+}
+
 
 function rotateCard (e) {
   let id = e.target.id
@@ -143,14 +171,17 @@ function rotateCard (e) {
 }
 
 // start Meni - on clik, disable elements
-var startGame = document.getElementById('startGame')
-startGame.addEventListener('click', disableBackground)
+let startGame = document.getElementById('startGame')
+startGame.addEventListener('click', startGames)
 
 // prepare everything for the game
-var memoryCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb']
-var matchedCards = []
-var openedCards = []
-var moves = 0
+let memoryCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb']
+let matchedCards = []
+let openedCards = []
+let moves = 0
+let sec = 0
+let min = 0
+let t
 
 memoryCards = shuffle(memoryCards)
 console.log(memoryCards)
