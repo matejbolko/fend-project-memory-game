@@ -99,11 +99,11 @@ function isGameOver () {
 }
 
 function timer () {
-  t = setTimeout(add, 1000);
+  t = setTimeout(add, 1000)
 }
 
 function resetTimer () {
-  clearTimeout(t);
+  clearTimeout(t)
   t = 0
   sec = 0
   min = 0
@@ -112,14 +112,14 @@ function resetTimer () {
   timer()
 }
 
-function add() {
-  sec++;
+function add () {
+  sec++
   if (sec >= 60) {
-    sec = 0;
-    min++;
+    sec = 0
+    min++
   }
   var clock = document.getElementById('timer')
-  clock.textContent = (min ? (min > 9 ? min : "0" + min) : "00") + ":" + (sec > 9 ? sec : "0" + sec)
+  clock.textContent = (min ? (min > 9 ? min : '0' + min) : '00') + ':' + (sec > 9 ? sec : '0' + sec)
   timer()
 }
 
@@ -130,7 +130,6 @@ function startGames () {
   document.getElementById('disableGame').style.display = 'none'
   timer()
 }
-
 
 function rotateCard (e) {
   let id = e.target.id
