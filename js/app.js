@@ -13,10 +13,12 @@ function shuffle (array) {
   return array
 }
 
+// create cars and append them to HTML doc
 function CreateCards () {
   // create UL
   let ul = document.createElement('ul')
   ul.classList.add('deck')
+  ul.id = 'deckid'
   document.querySelector('.container').appendChild(ul)
 
   // create 12li classes named "cardidX" where X = number
@@ -34,6 +36,7 @@ function CreateCards () {
   }
 }
 
+// two cards do not match
 function getUnmatchedCards (c1, c2) {
   // disable mouse click
   let tmp = document.getElementsByClassName('container')
@@ -45,17 +48,60 @@ function getUnmatchedCards (c1, c2) {
   }, 1000)
 }
 
+// matching cards
 function getMatchedCards (c1, c2) {
-  // disable mouse click
+  // disable mouse click + disable mouse click on matched elements
   let tmp = document.getElementsByClassName('container')
   tmp[0].classList.add('disable')
   window.setTimeout(function () {
     // add class "match" to matching cards (LI element)
-    c1.classList.add('match')
-    c2.classList.add('match')
-    matchedCounter = matchedCounter + 2
+    c1.classList.add('match', 'disable')
+    c2.classList.add('match', 'disable')
     tmp[0].classList.remove('disable')
+    // check if game is over
+    isGameOver()
   }, 1000)
+}
+
+// restart game
+function restartGame () {
+  let elements = document.getElementsByClassName('card')
+  let deck = document.getElementById('deckid')
+  let symbols = deck.getElementsByClassName('fa')
+
+  // shuffle cards again
+  memoryCards = shuffle(memoryCards)
+
+  // remove all classes on cards
+  for (let x = 0; x < elements.length; x++) {
+    elements[x].classList.remove('match', 'open', 'show', 'disable')
+  }
+
+  // remove all symbols
+  for (let x = 0; x < symbols.length; x++) {
+    symbols[x].classList.remove('fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb')
+    symbols[x].classList.add(memoryCards[x])
+  }
+
+  // empty all variables
+  matchedCards = []
+  openedCards = []
+  console.log(memoryCards)
+}
+
+function isGameOver () {
+  if (matchedCards.length === 16) {
+    window.setTimeout(function () {
+      window.alert('GAME OVER')
+    }, 100)
+  }
+}
+
+function disableBackground () {
+  document.getElementById('startMenu').style.display = 'none'
+  document.getElementById('disableGame').style.display = 'none'
+  document.getElementById('startMenu').style.display = 'none'
+  document.getElementById('disableGame').style.display = 'none'
 }
 
 function rotateCard (e) {
@@ -63,7 +109,7 @@ function rotateCard (e) {
   let element = e.target
 
   // on clikc - open card (if it is not already opened)
-  if (openedCards.includes(id) === false) {
+  if (openedCards.includes(id) === false || matchedCards.includes(id) === false) {
     openedCards.push(id)
     element.classList.add('show')
     element.classList.add('open')
@@ -71,41 +117,51 @@ function rotateCard (e) {
 
   // if 2 cards are opened - check if matched or missmatched
   if (openedCards.length === 2) {
-    // read 2 cards classes
-    let el1 = openedCards.pop()
-    let el2 = openedCards.pop()
-    el1 = document.getElementById(el1)
-    el2 = document.getElementById(el2)
+    // read 2 cards ID
+    let elid1 = openedCards.pop()
+    let elid2 = openedCards.pop()
+    // get elements from ID
+    let el1 = document.getElementById(elid1)
+    let el2 = document.getElementById(elid2)
     // read and compare 2 card symbols (I class)
     let sym1 = el1.querySelector('i')
     let sym2 = el2.querySelector('i')
+    // each I selector has two classes - read the second one
     sym1 = sym1.classList.item(1)
     sym2 = sym2.classList.item(1)
     if (sym1 === sym2) {
+      matchedCards.push(elid1)
+      matchedCards.push(elid2)
       getMatchedCards(el1, el2)
     } else {
       getUnmatchedCards(el1, el2)
     }
+
+    moves = moves + 1
+    document.getElementById('moves').innerHTML = moves.toString()
   }
 }
 
-function restartGame () {
-  let elements = document.getElementsByClassName('card')
-  for (let x = 0; x < elements.length; x++) {
-    elements[x].classList.remove('match', 'open', 'show')
-  }
-  shuffle(memoryCards)
-}
+// start Meni - on clik, disable elements
+var startGame = document.getElementById('startGame')
+startGame.addEventListener('click', disableBackground)
 
+// prepare everything for the game
 var memoryCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb']
-shuffle(memoryCards)
-// console.log("shuffledCards: "+shuffledCards);
-CreateCards()
-var matchedCounter = 0
+var matchedCards = []
 var openedCards = []
-document.querySelector('.deck').addEventListener('click', rotateCard)
-document.querySelector('.restart').addEventListener('click', restartGame)
+var moves = 0
 
+memoryCards = shuffle(memoryCards)
+console.log(memoryCards)
+CreateCards()
+
+// add eventListeners for clicking on cards + restartButton
+var cardsListener = document.querySelectorAll('.card')
+for (let i = 0; i < cardsListener.length; i++) {
+  cardsListener[i].addEventListener('click', rotateCard)
+}
+document.querySelector('.restart').addEventListener('click', restartGame)
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
