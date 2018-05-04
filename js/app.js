@@ -14,7 +14,7 @@ function shuffle (array) {
 }
 
 // create cars and append them to HTML doc
-function CreateCards () {
+function createCards () {
   // create UL
   let ul = document.createElement('ul')
   ul.classList.add('deck')
@@ -86,23 +86,26 @@ function restartGame () {
   // empty all variables
   matchedCards = []
   openedCards = []
-  resetTimer()
+  timerReset()
+  moves = 0
+  document.getElementById('moves').innerHTML = moves.toString()
+
+  // reset stars
+  let star = document.querySelector('ul')
+  let starChilds = star.querySelectorAll('i')
+  for (let i = 0; i < starChilds.length; i++) {
+    starChilds[i].classList.remove('fa-star-o')
+    starChilds[i].classList.add('fa-star')
+  }
   console.log(memoryCards)
 }
 
-function isGameOver () {
-  if (matchedCards.length === 16) {
-    window.setTimeout(function () {
-      window.alert('GAME OVER' + t)
-    }, 100)
-  }
-}
-
 function timer () {
-  t = setTimeout(add, 1000)
+  t = setTimeout(timerAdd, 1000)
+  ratingSystem()
 }
 
-function resetTimer () {
+function timerReset () {
   clearTimeout(t)
   t = 0
   sec = 0
@@ -112,7 +115,7 @@ function resetTimer () {
   timer()
 }
 
-function add () {
+function timerAdd () {
   sec++
   if (sec >= 60) {
     sec = 0
@@ -123,12 +126,63 @@ function add () {
   timer()
 }
 
-function startGames () {
+function timerStop () {
+  clearTimeout(t)
+  t = 0
+  let endTime = min.toString() + 'min ' + sec.toString() + 'sec'
+  return endTime
+}
+
+function ratingSystem () {
+  // console.log("ratingSystem")
+  let star = document.querySelector('ul')
+  let starChilds = star.querySelectorAll('i')
+  if ((moves + sec) > 80) {
+    starChilds[0].classList.remove('fa-star')
+    starChilds[0].classList.add('fa-star-o')
+  } else if ((moves + sec) > 65) {
+    starChilds[1].classList.remove('fa-star')
+    starChilds[1].classList.add('fa-star-o')
+  } else if ((moves + sec) > 45) {
+    starChilds[2].classList.remove('fa-star')
+    starChilds[2].classList.add('fa-star-o')
+  }
+}
+
+function gameStart () {
   document.getElementById('startMenu').style.display = 'none'
   document.getElementById('disableGame').style.display = 'none'
-  document.getElementById('startMenu').style.display = 'none'
-  document.getElementById('disableGame').style.display = 'none'
-  timer()
+  document.getElementById('gameOverMenu').style.display = 'none'
+  document.querySelector('.container').style.display = 'flex'
+  if (gamePlayed >= 1) {
+    restartGame()
+  } else {
+    timer()
+  }
+}
+
+function gameOver () {
+  gamePlayed = gamePlayed + 1
+  let endTime = timerStop()
+  document.querySelector('.container').style.display = 'none'
+  document.getElementById('disableGame').style.display = 'block'
+  document.getElementById('gameOverMenu').style.display = 'block'
+  document.getElementById('yourScoreScore').innerHTML = endTime
+  let ratingStars = document.querySelector('.stars')
+  ratingStars.classList.add('ratingStars')
+  ratingStars.classList.remove('stars')
+  document.getElementById('yourRating').appendChild(ratingStars)
+  let restartGame = document.getElementById('restartGame')
+  restartGame.addEventListener('click', gameStart)
+}
+
+function isGameOver () {
+  if (matchedCards.length === 16) {
+    window.setTimeout(function () {
+      gameOver()
+      console.log('GAME OVER')
+    }, 100)
+  }
 }
 
 function rotateCard (e) {
@@ -171,7 +225,7 @@ function rotateCard (e) {
 
 // start Meni - on clik, disable elements
 let startGame = document.getElementById('startGame')
-startGame.addEventListener('click', startGames)
+startGame.addEventListener('click', gameStart)
 
 // prepare everything for the game
 let memoryCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb']
@@ -181,10 +235,11 @@ let moves = 0
 let sec = 0
 let min = 0
 let t
+let gamePlayed = 0
 
 memoryCards = shuffle(memoryCards)
 console.log(memoryCards)
-CreateCards()
+createCards()
 
 // add eventListeners for clicking on cards + restartButton
 var cardsListener = document.querySelectorAll('.card')
@@ -192,20 +247,3 @@ for (let i = 0; i < cardsListener.length; i++) {
   cardsListener[i].addEventListener('click', rotateCard)
 }
 document.querySelector('.restart').addEventListener('click', restartGame)
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */

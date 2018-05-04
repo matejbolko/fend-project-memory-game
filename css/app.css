@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -83,6 +83,7 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    box-shadow: 3px 2px 10px 0 #8B9621;
 }
 
 /*
@@ -144,7 +145,7 @@ h1 {
     align-items: center;
 }
 
-#matchingGame {
+#startGameTitle {
   width: 90%;
   padding: 10px 10px 30px 10px;
   margin: 10px auto;
@@ -165,4 +166,79 @@ h1 {
 #startGame:hover {
   background: #8B9621;
   cursor: pointer;
+}
+
+#gameOverTitle {
+  width: 90%;
+  padding: 10px 10px 30px 10px;
+  margin: 10px auto;
+  text-align: center;
+  color: white;
+  font-size: 3em;
+}
+
+#gameOverMenu {
+  width: 460px;
+  height: 500px;
+  background: #301D52;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  display: none;
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  align-items: center;
+}
+
+#restartGame {
+  width: 80%;
+  background: #958CA7;
+  padding: 20px 20px;
+  margin: 20px auto;
+  text-align: center;
+  color: white;
+}
+
+#restartGame:hover {
+  background: #8B9621;
+  cursor: pointer;
+}
+
+#yourScore {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 70%;
+  height: 2em;
+  margin: 10px auto;
+  color: white;
+}
+
+#yourScoreTitle {
+  font-size: 1em;
+}
+
+#yourScoreScore {
+  font-size: 2em;
+  padding-left: 20px;
+}
+
+#yourRating {
+  color: white;
+  display: flex;
+  align-items: flex-end;
+}
+
+.ratingStars {
+  list-style-type: none;
+  font-size: 3em;
+  text-align: center;
+  width: 90%;
+}
+
+.ratingStars li {
+  display: inline;
 }
