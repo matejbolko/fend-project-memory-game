@@ -38,7 +38,6 @@ function getUnmatchedCards (c1, c2) {
   // disable mouse click
   let tmp = document.getElementsByClassName('container')
   tmp[0].classList.add('disable')
-  console.log('card1: ' + c1 + ', card2: ' + c2)
   window.setTimeout(function () {
     c1.classList.remove('show', 'open')
     c2.classList.remove('show', 'open')
@@ -80,12 +79,8 @@ function rotateCard (e) {
     // read and compare 2 card symbols (I class)
     let sym1 = el1.querySelector('i')
     let sym2 = el2.querySelector('i')
-    console.log('SYM1: '+sym1)
-    console.log('SYM2: '+sym2)
     sym1 = sym1.classList.item(1)
     sym2 = sym2.classList.item(1)
-    console.log('SYM1: '+sym1)
-    console.log('SYM2: '+sym2)
     if (sym1 === sym2) {
       getMatchedCards(el1, el2)
     } else {
