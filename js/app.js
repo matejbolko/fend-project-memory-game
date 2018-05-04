@@ -19,11 +19,11 @@ function CreateCards () {
   ul.classList.add('deck')
   document.querySelector('.container').appendChild(ul)
 
-  // create 12li classes named "card"
-  for (let x = 0; x < 12; x++) {
+  // create 12li classes named "cardidX" where X = number
+  for (let x = 0; x < 16; x++) {
     let li = document.createElement('li')
     li.className = 'card'
-    li.id = "cardid"+x;
+    li.id = 'cardid' + x
 
     var i = document.createElement('i')
     i.className = 'fa'
@@ -34,64 +34,67 @@ function CreateCards () {
   }
 }
 
-function unmatchedCards (el1,el2) {
+function getUnmatchedCards (c1, c2) {
+  // disable mouse click
   let tmp = document.getElementsByClassName('container')
   tmp[0].classList.add('disable')
-  console.log("el1: "+el1+", el2: "+el2);
-  window.setTimeout(function() {
-    el1.classList.remove('show', 'open')
-    el2.classList.remove('show', 'open')
-    counter = 0;
+  console.log('card1: ' + c1 + ', card2: ' + c2)
+  window.setTimeout(function () {
+    c1.classList.remove('show', 'open')
+    c2.classList.remove('show', 'open')
     tmp[0].classList.remove('disable')
-  },1000);
+  }, 1000)
+}
+
+function getMatchedCards (c1, c2) {
+  // disable mouse click
+  let tmp = document.getElementsByClassName('container')
+  tmp[0].classList.add('disable')
+  window.setTimeout(function () {
+    // add class "match" to matching cards (LI element)
+    c1.classList.add('match')
+    c2.classList.add('match')
+    matchedCounter = matchedCounter + 2
+    tmp[0].classList.remove('disable')
+  }, 1000)
 }
 
 function rotateCard (e) {
-  let id = e.target.id;
-  let element = e.target;
-  if (element.classList.contains('fa') === true) {
-    // if clicked on symbol - get parentEl (card) ID
-    id = e.target.parentElement.id;
-    element = e.target.parentElement;
-  }
-  // console.log("this is card ID: " +id)
+  let id = e.target.id
+  let element = e.target
 
   // on clikc - open card (if it is not already opened)
   if (openedCards.includes(id) === false) {
-    openedCards.push(id);
+    openedCards.push(id)
     element.classList.add('show')
     element.classList.add('open')
-    counter++;
-  }
-  else {
   }
 
   // if 2 cards are opened - check if matched or missmatched
-  if (counter == 2) {
-    // read 2 cards == 2 UL classes
-    let el1 = openedCards.pop();
-    let el2 = openedCards.pop();
+  if (openedCards.length === 2) {
+    // read 2 cards classes
+    let el1 = openedCards.pop()
+    let el2 = openedCards.pop()
     el1 = document.getElementById(el1)
-    console.log("el1: "+el1);
     el2 = document.getElementById(el2)
-    // read and compare 2 child LI classes
-    let elch1 = el1.getElementsByClassName('fa')
-    let elch2 = el2.getElementsByClassName('fa')
-    elch1 =  elch1[0].classList.item(1);
-    elch2 =  elch2[0].classList.item(1);
-    console.log("first: "+elch1);
-    console.log("second: "+elch2);
-    if (elch1 == elch2) {
-      console.log("zadel si, TO DO")
+    // read and compare 2 card symbols (I class)
+    let sym1 = el1.querySelector('i')
+    let sym2 = el2.querySelector('i')
+    console.log('SYM1: '+sym1)
+    console.log('SYM2: '+sym2)
+    sym1 = sym1.classList.item(1)
+    sym2 = sym2.classList.item(1)
+    console.log('SYM1: '+sym1)
+    console.log('SYM2: '+sym2)
+    if (sym1 === sym2) {
+      getMatchedCards(el1, el2)
+    } else {
+      getUnmatchedCards(el1, el2)
     }
-    else {
-      unmatchedCards(el1, el2);
-    }
-      //match2Cards()
   }
 }
 
-function restartGame() {
+function restartGame () {
   let elements = document.getElementsByClassName('card')
   for (let x = 0; x < elements.length; x++) {
     elements[x].classList.remove('match', 'open', 'show')
@@ -103,11 +106,10 @@ var memoryCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-pla
 shuffle(memoryCards)
 // console.log("shuffledCards: "+shuffledCards);
 CreateCards()
-var counter = 0;
-var openedCards = [];
-document.querySelector(".deck").addEventListener("click", rotateCard)
-document.querySelector(".restart").addEventListener("click",restartGame)
-
+var matchedCounter = 0
+var openedCards = []
+document.querySelector('.deck').addEventListener('click', rotateCard)
+document.querySelector('.restart').addEventListener('click', restartGame)
 
 /*
  * Display the cards on the page
