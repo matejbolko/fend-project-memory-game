@@ -72,33 +72,35 @@ function restartGame () {
   // shuffle cards again
   memoryCards = shuffle(memoryCards)
 
-  // remove all classes on cards
+  // remove all classes on cards then all symbols
   for (let x = 0; x < elements.length; x++) {
     elements[x].classList.remove('match', 'open', 'show', 'disable')
   }
-
-  // remove all symbols
   for (let x = 0; x < symbols.length; x++) {
     symbols[x].classList.remove('fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb')
     symbols[x].classList.add(memoryCards[x])
   }
 
-  // empty all variables
+  // reset all variables
   matchedCards = []
   openedCards = []
   timerReset()
   moves = 0
   document.getElementById('moves').innerHTML = moves.toString()
 
-  // reset stars
-  let star = document.querySelector('ul')
-  let starChilds = star.querySelectorAll('i')
-  for (let i = 0; i < starChilds.length; i++) {
-    starChilds[i].classList.remove('fa-star-o')
-    starChilds[i].classList.add('fa-star')
+  // reset gameOver an score-panel stars
+  let stars = document.querySelectorAll('ul')
+  for (let i = 0; i < stars.length; i++) {
+    let starChilds = stars[i].querySelectorAll('i')
+    for (let i = 0; i < starChilds.length; i++) {
+      starChilds[i].classList.add('fa-star')
+      starChilds[i].classList.remove('fa-star-o')
+    }
   }
+
+  // easySolving consoleLog :)
   console.log(memoryCards)
-}
+} // restartGame
 
 function timer () {
   t = setTimeout(timerAdd, 1000)
@@ -134,18 +136,20 @@ function timerStop () {
 }
 
 function ratingSystem () {
-  // console.log("ratingSystem")
-  let star = document.querySelector('ul')
-  let starChilds = star.querySelectorAll('i')
-  if ((moves + sec) > 80) {
-    starChilds[0].classList.remove('fa-star')
-    starChilds[0].classList.add('fa-star-o')
-  } else if ((moves + sec) > 65) {
-    starChilds[1].classList.remove('fa-star')
-    starChilds[1].classList.add('fa-star-o')
-  } else if ((moves + sec) > 45) {
-    starChilds[2].classList.remove('fa-star')
-    starChilds[2].classList.add('fa-star-o')
+  // repleca stars in gameOver screen and on score-panel
+  let stars = document.querySelectorAll('ul')
+  for (let i = 0; i < stars.length; i++) {
+    let starChilds = stars[i].querySelectorAll('i')
+    if ((moves + (min * 60) + sec) > 80) {
+      starChilds[0].classList.remove('fa-star')
+      starChilds[0].classList.add('fa-star-o')
+    } else if ((moves + (min * 60) + sec) > 65) {
+      starChilds[1].classList.remove('fa-star')
+      starChilds[1].classList.add('fa-star-o')
+    } else if ((moves + sec) > 45) {
+      starChilds[2].classList.remove('fa-star')
+      starChilds[2].classList.add('fa-star-o')
+    }
   }
 }
 
@@ -168,10 +172,7 @@ function gameOver () {
   document.getElementById('disableGame').style.display = 'block'
   document.getElementById('gameOverMenu').style.display = 'block'
   document.getElementById('yourScoreScore').innerHTML = endTime
-  let ratingStars = document.querySelector('.stars')
-  ratingStars.classList.add('ratingStars')
-  ratingStars.classList.remove('stars')
-  document.getElementById('yourRating').appendChild(ratingStars)
+
   let restartGame = document.getElementById('restartGame')
   restartGame.addEventListener('click', gameStart)
 }
@@ -238,7 +239,7 @@ let t
 let gamePlayed = 0
 
 memoryCards = shuffle(memoryCards)
-console.log(memoryCards)
+// console.log(memoryCards)
 createCards()
 
 // add eventListeners for clicking on cards + restartButton
