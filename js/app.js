@@ -42,8 +42,8 @@ function getUnmatchedCards (c1, c2) {
   let tmp = document.getElementsByClassName('container')
   tmp[0].classList.add('disable')
   window.setTimeout(function () {
-    c1.classList.remove('show', 'open')
-    c2.classList.remove('show', 'open')
+    c1.classList.remove('show', 'open', 'disable')
+    c2.classList.remove('show', 'open', 'disable')
     tmp[0].classList.remove('disable')
   }, 1000)
 }
@@ -195,6 +195,7 @@ function rotateCard (e) {
     openedCards.push(id)
     element.classList.add('show')
     element.classList.add('open')
+    element.classList.add('disable')
   }
 
   // if 2 cards are opened - check if matched or missmatched
