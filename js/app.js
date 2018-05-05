@@ -154,9 +154,9 @@ function ratingSystem () {
 }
 
 function gameStart () {
-  document.getElementById('startMenu').style.display = 'none'
-  document.getElementById('disableGame').style.display = 'none'
-  document.getElementById('gameOverMenu').style.display = 'none'
+  document.getElementById('start-menu').style.display = 'none'
+  document.getElementById('disable-game').style.display = 'none'
+  document.getElementById('end-menu').style.display = 'none'
   document.querySelector('.container').style.display = 'flex'
   if (gamePlayed >= 1) {
     restartGame()
@@ -169,11 +169,11 @@ function gameOver () {
   gamePlayed = gamePlayed + 1
   let endTime = timerStop()
   document.querySelector('.container').style.display = 'none'
-  document.getElementById('disableGame').style.display = 'block'
-  document.getElementById('gameOverMenu').style.display = 'block'
-  document.getElementById('yourScoreScore').innerHTML = endTime
+  document.getElementById('disable-game').style.display = 'block'
+  document.getElementById('end-menu').style.display = 'block'
+  document.getElementById('score__score').innerHTML = endTime
 
-  let restartGame = document.getElementById('restartGame')
+  let restartGame = document.getElementById('end-menu__restart')
   restartGame.addEventListener('click', gameStart)
 }
 
@@ -225,7 +225,7 @@ function rotateCard (e) {
 }
 
 // start Meni - on clik, disable elements
-let startGame = document.getElementById('startGame')
+let startGame = document.getElementById('start-menu__start')
 startGame.addEventListener('click', gameStart)
 
 // prepare everything for the game

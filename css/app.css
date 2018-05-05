@@ -121,7 +121,7 @@ h1 {
   padding-left: 20%;
 }
 
-#disableGame {
+#disable-game {
     width: 100%;
     height: 100%;
     background: #301d52;
@@ -129,7 +129,7 @@ h1 {
     z-index: 1;
 }
 
-#startMenu {
+#start-menu {
     width: 460px;
     height: 500px;
     background: #301d52;
@@ -145,7 +145,7 @@ h1 {
     align-items: center;
 }
 
-#startGameTitle {
+#start-menu__title {
   width: 90%;
   padding: 10px 10px 30px 10px;
   margin: 10px auto;
@@ -154,7 +154,7 @@ h1 {
   font-size: 3em;
 }
 
-#startGame {
+#start-menu__start {
   width: 80%;
   background: #958ca7;
   padding: 20px 20px;
@@ -163,12 +163,12 @@ h1 {
   color: white;
 }
 
-#startGame:hover {
+#start-menu__start:hover {
   background: #8b9621;
   cursor: pointer;
 }
 
-#gameOverTitle {
+#end-menu__title {
   width: 90%;
   padding: 10px 10px 30px 10px;
   margin: 10px auto;
@@ -178,7 +178,7 @@ h1 {
   font-size: 3em;
 }
 
-#gameOverMenu {
+#end-menu {
   width: 460px;
   height: 500px;
   background: #301d52;
@@ -194,7 +194,7 @@ h1 {
   align-items: center;
 }
 
-#restartGame {
+#end-menu__restart {
   width: 80%;
   background: #958ca7;
   padding: 20px 20px;
@@ -203,12 +203,12 @@ h1 {
   color: white;
 }
 
-#restartGame:hover {
+#end-menu__restart:hover {
   background: #8b9621;
   cursor: pointer;
 }
 
-#yourScore {
+#end-menu__score {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -218,16 +218,16 @@ h1 {
   color: white;
 }
 
-#yourScoreTitle {
+#score__title {
   font-size: 1em;
 }
 
-#yourScoreScore {
+#score__score {
   font-size: 2em;
   padding-left: 20px;
 }
 
-#ratingStars {
+.end-menu__stars {
   color: white;
   width: 90%;
   display: flex;
@@ -238,6 +238,6 @@ h1 {
   text-align: center;
 }
 
-#ratingStars li {
+.end-menu__stars li {
   display: inline;
 }
