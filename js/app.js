@@ -178,7 +178,7 @@ function gameOver () {
 }
 
 function isGameOver () {
-  if (matchedCards.length === 16) {
+  if (matchedCards.length === 2) {
     window.setTimeout(function () {
       gameOver()
       console.log('GAME OVER')
